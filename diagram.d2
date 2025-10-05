@@ -1,0 +1,116 @@
+direction: right
+# grid-columns: 4
+# sources.grid-columns: 1
+# destinations.grid-columns: 1
+
+sources: {
+  # width: 300
+}
+
+gcp
+
+gcp.vcp.compute_engine.airflow.style: {
+  stroke-dash: 3
+}
+gcp.vcp.compute_engine.style: {
+  stroke-dash: 3
+}
+gcp.vcp.style: {
+  stroke-dash: 3
+}
+gcp.vcp.warehouse.style: {
+  stroke-dash: 3
+}
+
+# Sources
+
+sources: Sources {
+  ga4: Google Analytics {
+    icon: ./ga4.svg
+    shape: image
+    width: 50
+    height: 50
+  }
+  meta: Meta Ads {
+    icon: ./meta.svg
+    shape: image
+    width: 50
+    height: 36
+  }
+  google_ads: Google Ads {
+    icon: ./gads.svg
+    shape: image
+    width: 50
+    height: 50
+  }
+  microsoft_ads: 'Microsoft Ads' {
+    icon: ./bing.svg
+    shape: image
+    width: 50
+    height: 50
+  }
+  ia: Income Access {
+    icon: ./ia.png
+    shape: image
+    width: 50
+    height: 50
+  }
+  excel: Excel {
+    icon: ./excel.svg
+    shape: image
+    width: 50
+    height: 50
+  }
+}
+
+# GCP
+gcp: GCP {
+  vcp: VCP {
+    compute_engine: Compute Engine {
+      airflow: Airflow {
+        python: Python
+        airbyte: Airbyte
+        dbt: dbt
+      }
+    }
+    warehouse: Warehouse {
+      bigquery: BigQuery {
+        shape: image
+        icon: ./bq.svg
+        width: 50
+        height: 50
+      }
+    }
+  }
+}
+
+# Destinations
+destinations: Destinations {
+  retl: rETL {
+    capi: CAPI
+    audiences: Audiences
+    crm: CRM
+  }
+  bi: BI
+}
+
+# Connections
+
+sources.meta -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+sources.google_ads -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+sources.microsoft_ads -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+sources.ga4 -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+sources.ia -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+sources.excel -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: false}}
+
+gcp.vcp.compute_engine.airflow.airbyte -> gcp.vcp.warehouse.bigquery: load {style: {animated: false}}
+gcp.vcp.compute_engine.airflow.dbt -> gcp.vcp.warehouse.bigquery: write {style: {animated: false}}
+gcp.vcp.warehouse.bigquery -> gcp.vcp.compute_engine.airflow.dbt: read {style: {animated: false}}
+
+gcp.vcp.warehouse.bigquery -> gcp.vcp.compute_engine.airflow.python: read {style: {animated: false}}
+gcp.vcp.compute_engine.airflow.python -> destinations.retl.audiences: sync {style: {animated: false}}
+gcp.vcp.compute_engine.airflow.python -> destinations.retl.capi: sync {style: {animated: false}}
+gcp.vcp.compute_engine.airflow.python -> destinations.retl.crm: sync {style: {animated: false}}
+gcp.vcp.compute_engine.airflow.python -> destinations.personalisation: sync {style: {animated: false}}
+
+gcp.vcp.warehouse.bigquery -> destinations.bi: read {style: {animated: false}}
