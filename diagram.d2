@@ -9,16 +9,16 @@ sources: {
 
 gcp
 
-gcp.vcp.compute_engine.airflow.style: {
+gcp.vpc.compute_engine.airflow.style: {
   stroke-dash: 3
 }
-gcp.vcp.compute_engine.style: {
+gcp.vpc.compute_engine.style: {
   stroke-dash: 3
 }
-gcp.vcp.style: {
+gcp.vpc.style: {
   stroke-dash: 3
 }
-gcp.vcp.warehouse.style: {
+gcp.vpc.warehouse.style: {
   stroke-dash: 3
 }
 
@@ -65,7 +65,7 @@ sources: Sources {
 
 # GCP
 gcp: GCP {
-  vcp: VCP {
+  vpc: VPC {
     compute_engine: Compute Engine {
       airflow: Airflow {
         python: Python
@@ -96,21 +96,21 @@ destinations: Destinations {
 
 # Connections
 
-sources.meta -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
-sources.google_ads -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
-sources.microsoft_ads -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
-sources.ga4 -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
-sources.ia -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
-sources.excel -> gcp.vcp.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.meta -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.google_ads -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.microsoft_ads -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.ga4 -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.ia -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
+sources.excel -> gcp.vpc.compute_engine.airflow.airbyte: {style: {animated: true}}
 
-gcp.vcp.compute_engine.airflow.airbyte -> gcp.vcp.warehouse.bigquery: load {style: {animated: true}}
-gcp.vcp.compute_engine.airflow.dbt -> gcp.vcp.warehouse.bigquery: write {style: {animated: true}}
-gcp.vcp.warehouse.bigquery -> gcp.vcp.compute_engine.airflow.dbt: read {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.airbyte -> gcp.vpc.warehouse.bigquery: load {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.dbt -> gcp.vpc.warehouse.bigquery: write {style: {animated: true}}
+gcp.vpc.warehouse.bigquery -> gcp.vpc.compute_engine.airflow.dbt: read {style: {animated: true}}
 
-gcp.vcp.warehouse.bigquery -> gcp.vcp.compute_engine.airflow.python: read {style: {animated: true}}
-gcp.vcp.compute_engine.airflow.python -> destinations.retl.audiences: sync {style: {animated: true}}
-gcp.vcp.compute_engine.airflow.python -> destinations.retl.capi: sync {style: {animated: true}}
-gcp.vcp.compute_engine.airflow.python -> destinations.retl.crm: sync {style: {animated: true}}
-gcp.vcp.compute_engine.airflow.python -> destinations.personalisation: sync {style: {animated: true}}
+gcp.vpc.warehouse.bigquery -> gcp.vpc.compute_engine.airflow.python: read {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.python -> destinations.retl.audiences: sync {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.python -> destinations.retl.capi: sync {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.python -> destinations.retl.crm: sync {style: {animated: true}}
+gcp.vpc.compute_engine.airflow.python -> destinations.personalisation: sync {style: {animated: true}}
 
-gcp.vcp.warehouse.bigquery -> destinations.bi: read {style: {animated: true}}
+gcp.vpc.warehouse.bigquery -> destinations.bi: read {style: {animated: true}}
